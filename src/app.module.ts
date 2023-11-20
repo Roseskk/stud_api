@@ -2,10 +2,10 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { StudUsersModule } from './stud_users/stud-users.module'; // Импортируйте StudUsersModule
+import { StudUsersModule } from './stud_users/stud-users.module';
 import { StudUser } from './stud_users/entities/stud-user.entity';
 import {Discipline} from "./disciplines/entities/discipline.entity";
-import {DisciplinesModule} from "./disciplines/disciplines.module"; // Импортируйте сущность StudUser
+import {DisciplinesModule} from "./disciplines/disciplines.module";
 import { RoomsModule } from './rooms/rooms.module';
 import {Room} from "./rooms/entities/rooms.entity";
 import { TeachersModule } from './teachers/teachers.module';
@@ -16,7 +16,10 @@ import {SchedulesModule} from "./schedules/schedules.module";
 import {Schedule} from "./schedules/entities/schedule.entity";
 import {LessonsModule} from "./lessons/lessons.module";
 import {Lesson} from "./lessons/entities/lesson.entity";
-import * as process from "process";
+import {FacultiesModule} from "./faculties/faculties.module";
+import {Faculty} from "./faculties/entities/faculty.entity";
+import {DepartmentsModule} from "./departments/departments.module";
+import {Department} from "./departments/entities/department.entity";
 
 @Module({
   imports: [
@@ -24,13 +27,19 @@ import * as process from "process";
       type: 'mysql',
       host: '127.0.0.1',
       port: 3306, // Убедитесь, что порт указан, если отличается от стандартного
-      username: process.env.api_log,
-      password: process.env.api_pw,
+      username: 'root',
+      password: 'RoseAmi12',
       database: 'stud',
-      entities: [StudUser, Discipline, Room, Teacher, LessonType, Schedule, Lesson], // Добавьте сюда сущность StudUser
+      entities: [
+          StudUser,
+          Discipline, Room, Teacher, LessonType,
+          Schedule, Lesson, Faculty, Department
+      ],
       synchronize: false,
     }),
-    StudUsersModule, DisciplinesModule, RoomsModule, TeachersModule, LessonTypesModule, SchedulesModule, LessonsModule
+      StudUsersModule, DisciplinesModule, RoomsModule, TeachersModule,
+      LessonTypesModule, SchedulesModule, LessonsModule, FacultiesModule,
+      DepartmentsModule
   ],
   controllers: [AppController],
   providers: [AppService],
