@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import {LessThanOrEqual, MoreThanOrEqual, Repository} from 'typeorm';
+import {LessThan, LessThanOrEqual, MoreThanOrEqual, Repository} from 'typeorm';
 import { Lesson } from './entities/lesson.entity';
 
 @Injectable()
@@ -39,6 +39,22 @@ export class LessonsService {
         return this.lessonsRepository.findOne({
             where: { id },
             relations: ['discipline', 'teacher', 'teacher2', 'room', 'room2', 'schedule', 'lessonType']
+        });
+    }
+
+    findAllForToday() {
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+
+        const tomorrow = new Date(today);
+        tomorrow.setDate(tomorrow.getDate() + 1);
+
+        return this.lessonsRepository.find({
+            where: {
+                start_datetime: MoreThanOrEqual(today),
+                end_datetime: LessThan(tomorrow),
+            },
+            relations: ['discipline', 'teacher', 'teacher2', 'room', 'room2', 'schedule', 'lessonType'],
         });
     }
 

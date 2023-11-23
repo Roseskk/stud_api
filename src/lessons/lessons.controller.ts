@@ -15,6 +15,13 @@ export class LessonsController {
         return this.lessonsService.findAll();
     }
 
+    @ApiOperation({ summary: 'Получить уроки на сегодняшний день' })
+    @ApiResponse({ status: 200, description: 'Возвращает уроки на сегодняшний день', type: [Lesson] })
+    @Get('today')
+    findAllForToday() {
+        return this.lessonsService.findAllForToday();
+    }
+
     @ApiOperation({ summary: 'Получить уроки за академический год' })
     @ApiResponse({ status: 200, description: 'Возвращает уроки за академический год', type: [Lesson] })
     @Get('academic-year')

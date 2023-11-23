@@ -20,6 +20,10 @@ import {FacultiesModule} from "./faculties/faculties.module";
 import {Faculty} from "./faculties/entities/faculty.entity";
 import {DepartmentsModule} from "./departments/departments.module";
 import {Department} from "./departments/entities/department.entity";
+import {EduType} from "./edutypes/entities/edu-type.entity";
+import {EduTypesModule} from "./edutypes/edu-types.module";
+import {GroupsModule} from "./groups/groups.module";
+import {Group} from "./groups/entities/group.entity";
 
 @Module({
   imports: [
@@ -33,13 +37,14 @@ import {Department} from "./departments/entities/department.entity";
       entities: [
           StudUser,
           Discipline, Room, Teacher, LessonType,
-          Schedule, Lesson, Faculty, Department
+          Schedule, Lesson, Faculty, Department,
+          EduType, Group
       ],
       synchronize: false,
     }),
       StudUsersModule, DisciplinesModule, RoomsModule, TeachersModule,
       LessonTypesModule, SchedulesModule, LessonsModule, FacultiesModule,
-      DepartmentsModule
+      DepartmentsModule, EduTypesModule, GroupsModule
   ],
   controllers: [AppController],
   providers: [AppService],
