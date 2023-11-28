@@ -55,8 +55,12 @@ export class LessonsService {
                 end_datetime: LessThan(tomorrow),
             },
             relations: ['discipline', 'teacher', 'teacher2', 'room', 'room2', 'schedule', 'lessonType'],
+            order: {
+                room: 'ASC' 
+            },
         });
     }
+
 
 
     create(lesson: Lesson) {
