@@ -49,17 +49,21 @@ export class LessonsService {
         const tomorrow = new Date(today);
         tomorrow.setDate(tomorrow.getDate() + 1);
 
-        return this.lessonsRepository.find({
-            where: {
-                start_datetime: MoreThanOrEqual(today),
-                end_datetime: LessThan(tomorrow),
-            },
-            relations: ['discipline', 'teacher', 'teacher2', 'room', 'room2', 'schedule', 'lessonType'],
-            order: {
-                room: 'ASC' 
-            },
-        });
+        return this.lessonsRepository.createQueryBuilder('lesson')
+            .leftJoinAndSelect('lesson.discipline', 'discipline')
+            .leftJoinAndSelect('lesson.teacher', 'teacher')
+            .leftJoinAndSelect('lesson.teacher2', 'teacher2')
+            .leftJoinAndSelect('lesson.room', 'room')
+            .leftJoinAndSelect('lesson.room2', 'room2')
+            .leftJoinAndSelect('lesson.schedule', 'schedule')
+            .leftJoinAndSelect('lesson.lessonType', 'lessonType')
+            .where('lesson.start_datetime >= :today', { today })
+            .andWhere('lesson.end_datetime < :tomorrow', { tomorrow })
+            .orderBy('room.title', 'ASC') // Сортировка по полю title сущности Room
+            .getMany();
     }
+
+
 
 
 
